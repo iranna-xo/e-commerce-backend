@@ -5,13 +5,94 @@ import smtplib, ssl
 import copy
 app = Flask(__name__)
 
+import random
+import string
+
 
 users = [
 
 ]
 
 
+#generate a array with name product which has the following
+#1. product id which is number 
+#2. product description which tells about the product
+#3. product amount which is number
+#4. product imageUrl which is string
 
+
+products = [
+  {
+    "productId": 1,
+    "name": "Product 1",
+    "description": "Product 1 description",
+    "amount": 99,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 2,
+    "name": "Product 2", 
+    "description": "Product 2 description",
+    "amount": 199,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 3,
+    "name": "Product 3",
+    "description": "Product 3 description",
+    "amount": 299,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 4,
+    "name": "Product 4",
+    "description": "Product 4 description",
+    "amount": 399,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 5,
+    "name": "Product 5",
+    "description": "Product 5 description",
+    "amount": 499,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 6, 
+    "name": "Product 6",
+    "description": "Product 6 description",
+    "amount": 599,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 7,
+    "name": "Product 7",
+    "description": "Product 7 description",
+    "amount": 699,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 8,
+    "name": "Product 8",
+    "description": "Product 8 description",
+    "amount": 799,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 9,
+    "name": "Product 9",
+    "description": "Product 9 description",
+    "amount": 899,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  },
+  {
+    "productId": 10,
+    "name": "Product 10",
+    "description": "Product 10 description",
+    "amount": 999,
+    "imageUrl": "https://source.unsplash.com/random/200x200"
+  }
+]
 
 
 def randomKeyGenerator():
@@ -113,6 +194,32 @@ def verifyOtp():
     return make_response({"sessionKey":sessionKey},200)
   else:
     return make_response({"errorMessage":'Otp is invalid'},401)
+  
+@app.route('/products',methods=['GET'])
+def getProducts():
+  return make_response(products,200)
+
+
+def validateChangePass(changePassUser):
+  for user in users:
+    if changePassUser['email'] == user['email']:
+      if changePassUser['oldPassword'] == user['password']:
+        user['password'] = changePassUser['newPassword']
+        return True
+      else:
+        return False
+
+
+@app.route('/change-password',methods=['POST'])
+def changePassword():
+  req= request.json
+  print(req)
+  flag = validateChangePass(req)
+  if flag:
+    return make_response({"status":"success"},200)
+  else:
+    return make_response({"errorMessage":"Invalid old password"},401)
+
 
 if __name__=='__main__':
   app.run(debug=True)
