@@ -10,9 +10,7 @@ users = [
 
 ]
 
-systemEmail= "irannacy22@gmail.com"
-systemPassword = "forvdiuse"
-port = 465
+
 
 
 
